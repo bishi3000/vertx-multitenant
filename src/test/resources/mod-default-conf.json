@@ -1,0 +1,8 @@
+{
+    "TenantVerticle" : {
+        "s3connectionDetails" : {
+            "bucket" : "lassocloud",
+            "folder" : "tenants"
+        }
+    }
+}

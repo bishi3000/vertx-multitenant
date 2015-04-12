@@ -1,0 +1,18 @@
+{
+
+  // Java verticle
+  "main":"com.ultratechnica.vertx.mt.TenantVerticle",
+
+
+  // If your module is going to be registered in the Vert.x module registry you will also need the following
+  // mandatory fields
+  "description":"A module for making handling multi-tenant configurations with Amazon S3 simple",
+  "licenses": ["The Apache Software License Version 2.0"],
+  "author": "Keith Bishop",
+
+  // Optional fields
+  "developers": ["Keith Bishop"],
+  "keywords": ["aws", "multitentant"],
+
+  "auto-redeploy": true
+}
