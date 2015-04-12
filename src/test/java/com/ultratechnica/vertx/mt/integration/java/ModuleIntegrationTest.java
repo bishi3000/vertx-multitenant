@@ -58,7 +58,7 @@ public class ModuleIntegrationTest extends TestVerticle {
 
         JsonObject config = new JsonObject(buffer.toString());
 
-        container.deployModule(System.getProperty("vertx.modulename"), config.getObject("TenantVerticle"), new AsyncResultHandler<String>() {
+        container.deployModule(System.getProperty("vertx.modulename"), config.getObject("MultitenantModule"), new AsyncResultHandler<String>() {
             @Override
             public void handle(AsyncResult<String> asyncResult) {
 

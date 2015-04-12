@@ -7,7 +7,7 @@
   <artifactId>multitenant</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Project - cloudstrap</name>
+  <name>Project - vertx multitenant</name>
   <url>http://maven.apache.org</url>
 
   <parent>

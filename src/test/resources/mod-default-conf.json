@@ -1,8 +1,14 @@
 {
-    "TenantVerticle" : {
-        "s3connectionDetails" : {
-            "bucket" : "lassocloud",
-            "folder" : "tenants"
+    "MultitenantModule" : {
+
+        "TenantVerticle" : {
+
+            "refreshInterval": 60000,
+
+            "s3connectionDetails" : {
+                "bucket" : "lassocloud",
+                "folder" : "tenants"
+            }
         }
     }
 }

@@ -24,23 +24,34 @@ import java.util.Set;
  */
 public class TenantVerticle extends Verticle {
 
+    private final int DEFAULT_REFRESH_INTERVAL = 10000;
+
     private AmazonS3 s3Client;
 
     @Override
     public void start(final Future<Void> result) {
 
-        getConfig(result);
+        JsonObject config = container.config();
+        final JsonObject tenantVerticleConfig = config.getObject("TenantVerticle");
 
-        vertx.setPeriodic(60000, new Handler<Long>() {
+        Number refreshInterval = tenantVerticleConfig.getNumber("refreshInterval");
+
+        if (refreshInterval == null) {
+            container.logger().warn("No [refreshInterval] parameter was specified for [TenantVerticle] configuration, defaulting to [" + DEFAULT_REFRESH_INTERVAL + "] millis");
+            refreshInterval = DEFAULT_REFRESH_INTERVAL;
+        }
+
+        getTenantConfig(result, tenantVerticleConfig);
+
+        vertx.setPeriodic(refreshInterval.longValue(), new Handler<Long>() {
             @Override
             public void handle(Long aLong) {
-                getConfig(result);
+                getTenantConfig(result, tenantVerticleConfig);
             }
         });
     }
 
-    private void getConfig(Future<Void> result) {
-        JsonObject config = container.config();
+    private void getTenantConfig(Future<Void> result, JsonObject config) {
         JsonObject s3connectionDetails = config.getObject("s3connectionDetails");
         String bucket = s3connectionDetails.getString("bucket");
         String folder = s3connectionDetails.getString("folder");
