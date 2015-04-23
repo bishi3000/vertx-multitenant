@@ -56,6 +56,8 @@ public class TenantVerticle extends Verticle {
         String bucket = s3connectionDetails.getString("bucket");
         String folder = s3connectionDetails.getString("folder");
 
+        container.logger().info("Conecting to bucket [" + s3connectionDetails + "]");
+
         s3Client = new AmazonS3Client();
 
         String indexKey = folder + "/" + "index.json";
@@ -72,7 +74,7 @@ public class TenantVerticle extends Verticle {
             String tenantId = index.getString(fieldName);
             tenantsIndex.put(fieldName, tenantId);
 
-            ObjectListing objectListing = s3Client.listObjects(bucket, folder + "/" + tenantId + "/");
+            ObjectListing objectListing = s3Client.listObjects(bucket, folder + "/" + tenantId + "/config/`");
             List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
 
             for (S3ObjectSummary objectSummary : objectSummaries) {
