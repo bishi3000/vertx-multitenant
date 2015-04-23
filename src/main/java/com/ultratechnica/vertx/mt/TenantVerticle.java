@@ -74,7 +74,7 @@ public class TenantVerticle extends Verticle {
             String tenantId = index.getString(fieldName);
             tenantsIndex.put(fieldName, tenantId);
 
-            ObjectListing objectListing = s3Client.listObjects(bucket, folder + "/" + tenantId + "/config/`");
+            ObjectListing objectListing = s3Client.listObjects(bucket, folder + "/" + tenantId + "/config/");
             List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
 
             for (S3ObjectSummary objectSummary : objectSummaries) {
