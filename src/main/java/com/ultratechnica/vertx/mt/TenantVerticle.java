@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import static com.ultratechnica.vertx.mt.FolderUtil.getConfigFolderKey;
-import static com.ultratechnica.vertx.mt.FolderUtil.getIndexKey;
-import static com.ultratechnica.vertx.mt.FolderUtil.getTenantMapKey;
+import static com.ultratechnica.vertx.mt.FolderUtil.*;
 import static com.ultratechnica.vertx.mt.MapKey.TENANTS_INDEX;
 
 /**
@@ -65,7 +63,9 @@ public class TenantVerticle extends Verticle {
 
         s3Client = new AmazonS3Client();
 
-        String indexKey = getIndexKey(folder);
+        initialise(bucket, folder);
+
+        String indexKey = getIndexKey();
         String tenantIndex = getConfig(bucket, indexKey);
         JsonObject index = new JsonObject(tenantIndex);
         Set<String> fieldNames = index.getFieldNames();
@@ -79,7 +79,7 @@ public class TenantVerticle extends Verticle {
             String tenantId = index.getString(fieldName);
             tenantsIndex.put(fieldName, tenantId);
 
-            ObjectListing objectListing = s3Client.listObjects(bucket, getConfigFolderKey(folder, tenantId));
+            ObjectListing objectListing = s3Client.listObjects(bucket, getConfigFolderKey(tenantId));
             List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
 
             for (S3ObjectSummary objectSummary : objectSummaries) {

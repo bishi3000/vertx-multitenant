@@ -7,15 +7,41 @@ package com.ultratechnica.vertx.mt;
  */
 public class FolderUtil {
 
+    private static FolderUtil instance;
+
+    private final String bucket;
+
+    private final String folder;
+
+    public static void initialise(String bucket, String folder) {
+
+        if (instance == null) {
+            instance = new FolderUtil(bucket, folder);
+        }
+    }
+
+    public static FolderUtil getInstance() {
+
+        if (instance == null) {
+            throw new IllegalStateException("Unable to return singleton instance, please initialise it fisrt");
+        }
+
+        return instance;
+    }
+
+    private FolderUtil(String bucket, String folder) {
+        this.bucket = bucket;
+        this.folder = folder;
+    }
     public static String getTenantMapKey(String tenantId) {
         return "tenants/" + tenantId;
     }
 
-    public static String getConfigFolderKey(String folder, String tenantId) {
-        return folder + "/" + tenantId + "/config/";
+    public static String getConfigFolderKey(String tenantId) {
+        return instance.folder + "/" + tenantId + "/config/";
     }
 
-    public static String getIndexKey(String folder) {
-        return folder + "/" + "index.json";
+    public static String getIndexKey() {
+        return instance.folder + "/" + "index.json";
     }
 }
