@@ -17,6 +17,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import static com.ultratechnica.vertx.mt.FolderUtil.getConfigFolderKey;
+import static com.ultratechnica.vertx.mt.FolderUtil.getIndexKey;
+import static com.ultratechnica.vertx.mt.FolderUtil.getTenantMapKey;
+import static com.ultratechnica.vertx.mt.MapKey.TENANTS_INDEX;
+
 /**
  * User: keithbishop
  * Date: 05/08/2014
@@ -60,12 +65,12 @@ public class TenantVerticle extends Verticle {
 
         s3Client = new AmazonS3Client();
 
-        String indexKey = folder + "/" + "index.json";
+        String indexKey = getIndexKey(folder);
         String tenantIndex = getConfig(bucket, indexKey);
         JsonObject index = new JsonObject(tenantIndex);
         Set<String> fieldNames = index.getFieldNames();
 
-        ConcurrentSharedMap<String, String> tenantsIndex = vertx.sharedData().getMap("tenants_index");
+        ConcurrentSharedMap<String, String> tenantsIndex = vertx.sharedData().getMap(TENANTS_INDEX.key());
 
         for (String fieldName : fieldNames) {
 
@@ -74,7 +79,7 @@ public class TenantVerticle extends Verticle {
             String tenantId = index.getString(fieldName);
             tenantsIndex.put(fieldName, tenantId);
 
-            ObjectListing objectListing = s3Client.listObjects(bucket, folder + "/" + tenantId + "/config/");
+            ObjectListing objectListing = s3Client.listObjects(bucket, getConfigFolderKey(folder, tenantId));
             List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
 
             for (S3ObjectSummary objectSummary : objectSummaries) {
@@ -83,7 +88,7 @@ public class TenantVerticle extends Verticle {
                 String tenantConfig = getConfig(bucket, key);
                 container.logger().info("loading config [" + key + "]");
 
-                ConcurrentSharedMap<String, String> map = vertx.sharedData().getMap("tenants/" + tenantId);
+                ConcurrentSharedMap<String, String> map = vertx.sharedData().getMap(getTenantMapKey(tenantId));
 
                 map.put(objectSummary.getKey(), tenantConfig);
             }
@@ -91,6 +96,7 @@ public class TenantVerticle extends Verticle {
 
         result.setResult(null);
     }
+
 
     private String getConfig(String bucket, String key) {
 
