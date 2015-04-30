@@ -23,7 +23,7 @@ public class FolderUtil {
     public static FolderUtil getInstance() {
 
         if (instance == null) {
-            throw new IllegalStateException("Unable to return singleton instance, please initialise it fisrt");
+            throw new IllegalStateException("Unable to return singleton instance, please initialise it first");
         }
 
         return instance;
@@ -41,7 +41,15 @@ public class FolderUtil {
         return instance.folder + "/" + tenantId + "/config/";
     }
 
+    public static String getHashcodeFolderKey(String tenantId) {
+        return instance.folder + "/" + tenantId + "/hashcode/";
+    }
+
     public static String getIndexKey() {
         return instance.folder + "/" + "index.json";
+    }
+
+    public static String getHashcodeKey(String key) {
+        return key.replace("config", "hashcode");
     }
 }

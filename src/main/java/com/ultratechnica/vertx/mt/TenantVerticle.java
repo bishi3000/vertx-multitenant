@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 import static com.ultratechnica.vertx.mt.FolderUtil.*;
-import static com.ultratechnica.vertx.mt.MapKey.TENANTS_INDEX;
+import static com.ultratechnica.vertx.mt.TenantUtil.*;
+import static com.ultratechnica.vertx.mt.TenantUtil.initialise;
 
 /**
  * User: keithbishop
@@ -27,7 +28,7 @@ import static com.ultratechnica.vertx.mt.MapKey.TENANTS_INDEX;
  */
 public class TenantVerticle extends Verticle {
 
-    private final int DEFAULT_REFRESH_INTERVAL = 10000;
+    public final int DEFAULT_REFRESH_INTERVAL = 10000;
 
     private AmazonS3 s3Client;
 
@@ -63,14 +64,15 @@ public class TenantVerticle extends Verticle {
 
         s3Client = new AmazonS3Client();
 
-        initialise(bucket, folder);
+        initialise(vertx);
+        FolderUtil.initialise(bucket, folder);
 
         String indexKey = getIndexKey();
         String tenantIndex = getConfig(bucket, indexKey);
         JsonObject index = new JsonObject(tenantIndex);
         Set<String> fieldNames = index.getFieldNames();
 
-        ConcurrentSharedMap<String, String> tenantsIndex = vertx.sharedData().getMap(TENANTS_INDEX.key());
+        ConcurrentSharedMap<String, String> tenantsIndex = getIndexMap();
 
         for (String fieldName : fieldNames) {
 
@@ -88,9 +90,10 @@ public class TenantVerticle extends Verticle {
                 String tenantConfig = getConfig(bucket, key);
                 container.logger().info("loading config [" + key + "]");
 
-                ConcurrentSharedMap<String, String> map = vertx.sharedData().getMap(getTenantMapKey(tenantId));
+                ConcurrentSharedMap<String, String> map = getTenantMap(tenantId);
 
-                map.put(objectSummary.getKey(), tenantConfig);
+                map.put(key, tenantConfig);
+                map.put(getHashcodeKey(key), objectSummary.getETag());
             }
         }
 
