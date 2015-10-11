@@ -22,7 +22,7 @@ import static com.ultratechnica.vertx.mt.TenantUtil.*;
 import static com.ultratechnica.vertx.mt.TenantUtil.initialise;
 
 /**
- * User: keithbishop
+ * User: keith bishop
  * Date: 05/08/2014
  * Time: 00:20
  */

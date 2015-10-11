@@ -7,7 +7,7 @@ import static com.ultratechnica.vertx.mt.FolderUtil.getTenantMapKey;
 import static com.ultratechnica.vertx.mt.MapKey.TENANTS_INDEX;
 
 /**
- * User: keithbishop
+ * User: keith bishop
  * Date: 29/04/15
  * Time: 23:22
  */
