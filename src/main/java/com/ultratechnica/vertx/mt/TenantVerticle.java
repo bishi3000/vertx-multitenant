@@ -32,6 +32,8 @@ public class TenantVerticle extends Verticle {
 
     private AmazonS3 s3Client;
 
+    private boolean initialised;
+
     @Override
     public void start(final Future<Void> result) {
 
@@ -88,7 +90,10 @@ public class TenantVerticle extends Verticle {
 
                 String key = objectSummary.getKey();
                 String tenantConfig = getConfig(bucket, key);
-                container.logger().info("loading config [" + key + "]");
+
+                if (! initialised) {
+                    container.logger().debug("loading config [" + key + "]");
+                }
 
                 ConcurrentSharedMap<String, String> map = getTenantMap(tenantId);
 

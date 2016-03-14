@@ -6,7 +6,7 @@
             "refreshInterval": 60000,
 
             "s3connectionDetails" : {
-                "bucket" : "lassocloud",
+                "bucket" : "ut-multitenant-test",
                 "folder" : "tenants"
             }
         }
