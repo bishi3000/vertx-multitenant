@@ -44,6 +44,11 @@ public class ModuleIntegrationTest extends TestVerticle {
             public void handle(AsyncResult<String> asyncResult) {
 
                 assertTrue(asyncResult.succeeded());
+
+                if (!asyncResult.succeeded()) {
+                    asyncResult.cause().printStackTrace();
+                }
+
                 assertNotNull("deploymentID should not be null", asyncResult.result());
 
                 startTests();
