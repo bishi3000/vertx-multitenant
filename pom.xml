@@ -10,11 +10,12 @@
   <name>Project - vertx multitenant</name>
   <url>http://maven.apache.org</url>
 
-  <parent>
+<!--  <parent>
      <groupId>org.sonatype.oss</groupId>
      <artifactId>oss-parent</artifactId>
      <version>7</version>
   </parent>
+-->
 
    <scm>
      <developerConnection>scm:git:https://github.com/bishi3000/vertx-multitenant</developerConnection>
