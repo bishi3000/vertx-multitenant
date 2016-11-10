@@ -45,8 +45,6 @@ public class S3TenantHandler implements TenantHandler {
 
         s3Client = new AmazonS3Client();
 
-        container.logger().info("Conected to bucket [" + s3connectionDetails + "] [" + s3Client.getS3AccountOwner() + "]");
-
         TenantUtil.initialise(vertx);
         FolderUtil.initialise(bucket, folder);
 
@@ -81,11 +79,7 @@ public class S3TenantHandler implements TenantHandler {
                 map.put(key, tenantConfig);
                 map.put(FolderUtil.getHashcodeKey(key), objectSummary.getETag());
             }
-
-            container.logger().info("Finished reading config [" + TenantUtil.getTenantMap(tenantId).entrySet() + "]");
         }
-
-        container.logger().info("Tenants index [" + tenantsIndex + "]");
 
         result.setResult(null);
     }
