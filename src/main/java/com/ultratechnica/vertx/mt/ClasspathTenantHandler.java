@@ -22,12 +22,10 @@ import static com.ultratechnica.vertx.mt.TenantUtil.initialise;
 /**
  * A handler for retrieving the tenant configuration from a classpath location. Thus removing the need to pull
  * the tenant config from s3 (and preventing the clobbering of s3 tenant configs by various projects)
- * <p/>
+ * <p>
  * This module looks on the local classpath (e.g. "src/main/resources" or "src/test/resources")
  * for the tenant configurations.
  *
- * <p/>
- * <p/>
  * User: keith bishop
  * Date: 10/11/16
  * Time: 17:40
