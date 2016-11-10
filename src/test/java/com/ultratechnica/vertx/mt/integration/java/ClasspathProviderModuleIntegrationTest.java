@@ -4,6 +4,7 @@ package com.ultratechnica.vertx.mt.integration.java;
  */
 
 import com.ultratechnica.vertx.mt.TenantUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.AsyncResultHandler;
@@ -19,15 +20,13 @@ import static org.vertx.testtools.VertxAssert.*;
 /**
  * Test tenant module connects to AWS S3 bucket and retrieves test
  */
-public class ModuleIntegrationTest extends TestVerticle {
+public class ClasspathProviderModuleIntegrationTest extends TestVerticle {
 
     @Test
     public void testConfigurationLoaded() {
         container.logger().info("in testConfigurationLoaded()");
 
         ConcurrentSharedMap<String, String> tenants_index = TenantUtil.getIndexMap();
-
-        container.logger().info("Tenants index [" + tenants_index + "]");
 
         assertNotNull(tenants_index);
         assertTrue(tenants_index.size() > 0);
@@ -40,7 +39,7 @@ public class ModuleIntegrationTest extends TestVerticle {
 
         initialize();
 
-        Buffer buffer = vertx.fileSystem().readFileSync("src/test/resources/mod-default-conf.json");
+        Buffer buffer = vertx.fileSystem().readFileSync("src/test/resources/mod-default-conf-classpath.json");
 
         JsonObject config = new JsonObject(buffer.toString());
 

@@ -14,5 +14,5 @@
   "developers": ["Keith Bishop"],
   "keywords": ["aws", "multitentant"],
 
-  "auto-redeploy": true
+  "auto-redeploy": false
 }

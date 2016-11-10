@@ -1,7 +1,7 @@
 package com.ultratechnica.vertx.mt;
 
 /**
- * User: keithbishop
+ * User: keith bishop
  * Date: 27/04/15
  * Time: 22:33
  */
@@ -14,10 +14,7 @@ public class FolderUtil {
     private final String folder;
 
     public static void initialise(String bucket, String folder) {
-
-        if (instance == null) {
-            instance = new FolderUtil(bucket, folder);
-        }
+        instance = new FolderUtil(bucket, folder);
     }
 
     public static FolderUtil getInstance() {

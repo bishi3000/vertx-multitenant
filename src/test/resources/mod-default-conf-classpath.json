@@ -1,0 +1,13 @@
+{
+    "MultitenantModule" : {
+
+        "TenantVerticle" : {
+
+            "provider" : "ClassPath",
+
+            "refreshInterval": 60000,
+
+            "configDirName" : "/testTenantConfig"
+        }
+    }
+}

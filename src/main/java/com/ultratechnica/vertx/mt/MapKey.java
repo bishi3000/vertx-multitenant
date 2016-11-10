@@ -1,7 +1,7 @@
 package com.ultratechnica.vertx.mt;
 
 /**
- * User: keithbishop
+ * User: keith bishop
  * Date: 27/04/15
  * Time: 22:02
  */
