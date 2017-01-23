@@ -14,12 +14,10 @@ import org.vertx.java.platform.Container;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-public class S3TenantHandler implements TenantHandler {
+public class S3TenantHandler extends AbstractTenantHandler {
 
     private final Vertx vertx;
 
@@ -81,7 +79,12 @@ public class S3TenantHandler implements TenantHandler {
             }
         }
 
-        result.setResult(null);
+        if (!refreshQueue.isEmpty()) {
+            refreshQueue.poll();
+            getTenantConfig(result, config);
+        } else {
+            result.setResult(null);
+        }
     }
 
     String getConfig(String bucket, String key) {

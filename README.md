@@ -109,7 +109,24 @@ is the name of the folder in the ClassPath which contains the index.json
 NOTE : the configDirName begins with a "/" this is important as omitting it will result in your configs not being loaded.
 
 
+## Force Refresh
 
+Sometimes it may be required to load (refresh) the tenant data in between the refresh interval. An example of this would be a config update via a front end interface. After the changes have been made, 
+you may want to see those changes immediately after reloading the front end user interface. The following code shows how this can be done.
+ 
+```java
+
+vertx.eventBus().send(BusAddress.FORCE_REFRESH.toString(), new JsonObject("{}"), new Handler<Message<JsonObject>>() {
+    @Override
+    public void handle(Message<JsonObject> message) {
+        container.logger().info("Message Response:\n" + message.body().encodePrettily());        
+    }
+});
+```
+
+A few things to note. The return message will contain whatever message you send via the JsonObject. If there is already a load in progress. The request will be added to a queue which will be processed after
+the current load is complete. This is done to ensure change made during a load will still be refreshed. Multiple instructions to reload the data can be stacked. Instructions to refresh the tenant data are
+thread safe.
 
 
 
