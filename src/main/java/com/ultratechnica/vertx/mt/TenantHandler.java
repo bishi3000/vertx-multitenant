@@ -11,4 +11,5 @@ import org.vertx.java.core.json.JsonObject;
 public interface TenantHandler {
 
     void getTenantConfig(Future<Void> result, JsonObject config) throws Exception;
+    void queueRefresh();
 }

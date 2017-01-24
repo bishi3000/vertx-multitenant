@@ -30,7 +30,7 @@ import static com.ultratechnica.vertx.mt.TenantUtil.initialise;
  * Date: 10/11/16
  * Time: 17:40
  */
-public class ClasspathTenantHandler implements TenantHandler {
+public class ClasspathTenantHandler extends AbstractTenantHandler {
 
     private final Vertx vertx;
 
@@ -79,7 +79,12 @@ public class ClasspathTenantHandler implements TenantHandler {
             }
         }
 
-        result.setResult(null);
+        if (!refreshQueue.isEmpty()) {
+            refreshQueue.poll();
+            getTenantConfig(result, config);
+        } else {
+            result.setResult(null);
+        }
     }
 
     private String getConfig(String fileName) throws FileNotFoundException {
